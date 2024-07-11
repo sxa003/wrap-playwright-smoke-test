@@ -1,0 +1,19 @@
+REVISION := $(shell git rev-parse HEAD)
+
+default: dist-image
+
+.PHONY install-dependencies:
+	./scripts/ci_run_docker_build.sh npm ci
+
+.PHONY tests: install-dependencies
+	./scripts/ci_run_docker_build.sh npm run test:ci
+
+.PHONY dist: tests
+	./scripts/ci_run_docker_build.sh npm run dist
+
+.PHONY dist-image: dist
+	echo ${REVISION} > sha_version
+	./scripts/ci_run_docker_build.sh "node scripts/set-version.js && node scripts/export-version-info.js ${BUILD_NUMBER} ${REVISION}"
+
+.PHONY publish: dist-image
+	@./scripts/ci_run_docker_build.sh ./scripts/docker_build_and_push.sh ${BUILD_NUMBER}

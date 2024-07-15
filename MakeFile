@@ -1,1 +1,3 @@
-.PHONY: CI=true JEST_JUNIT_OUTPUT=./test-reports/unit-test-output.xml npx playwright test
+.PHONY: tests
+tests:
+	CI=true JEST_JUNIT_OUTPUT=./test-reports/unit-test-output.xml npx playwright test

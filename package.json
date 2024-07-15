@@ -1,9 +1,11 @@
 {
-  "name": "untitled",
+  "name": "@ioof/playwright-sample",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "playwright test --config=playwright.config.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

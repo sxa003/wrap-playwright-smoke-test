@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "playwright test --config=playwright.config.js"
+    "test": "npx playwright test",
+    "test:ci": "CI=true JEST_JUNIT_OUTPUT=./test-reports/unit-test-output.xml npx playwright test"
   },
   "keywords": [],
   "author": "",

@@ -1,12 +1,13 @@
 REVISION := $(shell git rev-parse HEAD)
+tests:
+	CI=true JEST_JUNIT_OUTPUT=./test-reports/unit-test-output.xml npx playwright test
 
 default: dist-image
 
 .PHONY install-dependencies:
 	./scripts/ci_run_docker_build.sh npm ci
 
-.PHONY tests: install-dependencies
-	./scripts/ci_run_docker_build.sh npm run test:ci
+.PHONY: tests
 
 .PHONY dist: tests
 	./scripts/ci_run_docker_build.sh npm run dist

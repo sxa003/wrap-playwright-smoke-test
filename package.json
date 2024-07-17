@@ -1,9 +1,12 @@
 {
-  "name": "untitled",
+  "name": "@ioof/playwright-sample",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "npx playwright test",
+    "test:ci": "CI=true JEST_JUNIT_OUTPUT=./test-reports/unit-test-output.xml npx playwright test"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

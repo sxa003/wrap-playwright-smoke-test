@@ -1,15 +1,11 @@
-FROM docker-registry.hq.local/ioof/rhel7_nginx:latest
+FROM docker-registry.hq.local/microsoft/playwright:v1.39.0-jammy
 
-RUN yum install -q -y nginx-module-perl && yum clean all
+WORKDIR /app
 
-EXPOSE 8443
-EXPOSE 8446
+# Install dependencies
+RUN npm install @playwright/test@1.39.0
+RUN yes | npx playwright install --with-deps
+ENV NODE_TLS_REJECT_UNAUTHORIZED=0
 
-COPY config/nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY dist /app
-
-RUN echo "load_module modules/ngx_http_perl_module.so;" >> /tmp/nginx.conf \
- && echo "env STACK_NAME;" >> /tmp/nginx.conf \
- && echo "" >> /tmp/nginx.conf \
- && cat /etc/nginx/nginx.conf >> /tmp/nginx.conf \
- && mv /tmp/nginx.conf /etc/nginx/nginx.conf
+# Run playwright test
+CMD [ "npx", "playwright", "test" ]

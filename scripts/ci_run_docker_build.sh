@@ -41,7 +41,7 @@ echo "DOCKER_VOLUMES=${DOCKER_VOLUMES}"
 DOCKER_WORK_DIR="/data"
 echo "DOCKER_WORK_DIR=${DOCKER_WORK_DIR}"
 
-DOCKER_IMAGE="docker-registry.hq.local/dev/rhel7_node18_cypress10_ci:latest"
+DOCKER_IMAGE="docker-registry.hq.local/microsoft/playwright:v1.39.0-jammy:latest"
 
 #https://stackoverflow.com/questions/43099116/error-the-input-device-is-not-a-tty/48230089#48230089
 test -t 1 && USE_TTY="-t"

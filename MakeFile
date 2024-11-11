@@ -1,3 +1,6 @@
 .PHONY: tests
 tests:
-	CI=true JEST_JUNIT_OUTPUT=./test-reports/unit-test-output.xml npx playwright test
+	@./scripts/ci_run_docker_build.sh npm run test:ci
+
+publish:
+	@./scripts/ci_run_docker_build.sh ./scripts/docker_build_and_push.sh ${BUILD_NUMBER}

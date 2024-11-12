@@ -1,6 +1,7 @@
 // @ts-check
 const { defineConfig, devices } = require('@playwright/test');
 
+
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -29,16 +30,28 @@ module.exports = defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+
+    viewport: { width: 1280, height: 720 },
+    video :"retain-on-failure",
+    screenshot :"only-on-failure",
+    ignoreHTTPSErrors: true 
+      
   },
   expect: {
-    timeout: 60000,   // <---------
+    timeout: 40000,   // <---------
   },
+
+ 
+
+ 
 
   /* Configure projects for major browsers */
   projects: [
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
+      
+      
     },
 
     {
@@ -50,6 +63,15 @@ module.exports = defineConfig({
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
     },
+
+    {
+      name: 'chromium ddo',
+      testMatch: /ddo\/.*\.spec\.ts/,
+      use: {
+        ...devices['Desktop Chrome']
+      }
+    },
+  
 
     /* Test against mobile viewports. */
     // {

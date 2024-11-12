@@ -1,4 +1,9 @@
-.PHONY: tests
+intall-dependencies:
+	@./scripts/ci_run_docker_build.sh npm install
+
+tests:intall-dependencies
+	@./scripts/ci_run_docker_build.sh npm run test:ci
+
 tests:
 	@./scripts/ci_run_docker_build.sh npm run test:ci
 

@@ -7,9 +7,9 @@ then
 	echo "## continuing..."
 fi
 
-set -e
+set -e -x
 
-IMAGE_NAME=asis-web-adviser
+IMAGE_NAME=playwright-sample
 IMAGE_PREFIX=docker-registry.hq.local/asis/
 
 APP_VERSION=$(jq .version package.json -r)
@@ -23,41 +23,25 @@ echo "Minor: $MINOR_VERSION"
 
 docker build -t $IMAGE_NAME .
 
-PATCH_VERSION="$1"
-if [[ "x${PATCH_VERSION}" == "x" ]]; then
+set +e +x
+
+VERSION="$1"
+if [ x$VERSION != "x" ]
+then
+set -e -x
+	echo "Doing docker tag & push for VERSION $VERSION"
+	docker tag $IMAGE_NAME ${IMAGE_PREFIX}${IMAGE_NAME}:${MAJOR_VERSION}.${MINOR_VERSION}.${VERSION}
+	docker push ${IMAGE_PREFIX}${IMAGE_NAME}:${MAJOR_VERSION}.${MINOR_VERSION}.${VERSION}
+	
+	docker tag $IMAGE_NAME ${IMAGE_PREFIX}${IMAGE_NAME}:latest
+	docker push ${IMAGE_PREFIX}${IMAGE_NAME}:latest
+else
 	echo "No version provided, not doing docker tag & push"
 	echo ""
-	echo "## Run locally built container (asssuming you ran this script in project root):"
-	echo "   docker run -it --rm \\"
+	echo "## Run locally Docker with: (asssuming you ran this script in project root)"
+	echo "   docker run -it -p 80:8443 \\"
 	echo "   -v $(pwd)/src/dist/configuration.js:/local/conf/scripts/configuration.js \\"
 	echo "   -v $(pwd)/config/dev/nginx/default.conf:/etc/nginx/conf.d/default.conf \\"
 	echo "   $IMAGE_NAME"
-	echo "## Browse to http://localhost:8443/"
-  exit 0
+	echo "## Browse to http://localhost/"
 fi
-
-if [[ ! "$BRANCH_NAME" =~ ^(main|master)$ ]]; then
-  BRANCH_TAG="$(echo -n $BRANCH_NAME | sed -e 's/\//-/g')-"
-fi
-
-for version in "latest" "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"; do
-  for badge in "adviser-portfolioonline-assets"; do
-    tag="${IMAGE_PREFIX}${badge}:${BRANCH_TAG}${version}"
-    echo "Tagging new container for badge $badge with tag $tag"
-
-    docker tag $IMAGE_NAME $tag
-    docker push $tag
-  done
-
-  # Legacy Bendigo site (still being deployed)
-  for badge in "bendigosuperadviser-portfolioonline-assets"; do
-    tag="${IMAGE_PREFIX}${badge}:${BRANCH_TAG}${version}"
-    echo "Tagging legacy container for badge $badge with tag $tag"
-
-    # This is the same old container, just with a tag to support deployment of the new version
-    docker pull ${IMAGE_PREFIX}${badge}:latest
-
-    docker tag ${IMAGE_PREFIX}${badge} $tag
-    docker push $tag
-  done
-done

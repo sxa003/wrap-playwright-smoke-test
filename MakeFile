@@ -1,11 +1,12 @@
-intall-dependencies:
+
+.PHONY intall-dependencies:
 	@./scripts/ci_run_docker_build.sh npm install
 
-tests:intall-dependencies
+.PHONY tests:intall-dependencies
 	@./scripts/ci_run_docker_build.sh npm run test:ci
 
-tests:
+.PHONY tests:
 	@./scripts/ci_run_docker_build.sh npm run test:ci
 
-publish:
+.PHONY publish:
 	@./scripts/ci_run_docker_build.sh ./scripts/docker_build_and_push.sh ${BUILD_NUMBER}

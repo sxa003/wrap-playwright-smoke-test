@@ -8,7 +8,7 @@ test('DDO-V2', async ({ page,request }) => {
           
           headers:{
             'content-type':'application/json',
-            'Authorization':'Basic c3hhMDAzQGFjdGl2ZWRpcmVjdG9yeTpIb25lc3QqNQ=='
+            'Authorization':'Basic dummy'
         }
         });
         expect(res.status()).toBe(200);
@@ -36,14 +36,13 @@ test('DDO-V2', async ({ page,request }) => {
 });
 
 test('DDO-V1', async ({ page,request }) => {
-  test.slow();
-
-  const res = await request.post('https://security-authenticator-service.asis-dev5.hq.local/authenticate',{
+       test.slow();
+       const res = await request.post('https://security-authenticator-service.asis-dev5.hq.local/authenticate',{
           
-          headers:{
-            'content-type':'application/json',
-            'Authorization':'Basic c3hhMDAzQGFjdGl2ZWRpcmVjdG9yeTpIb25lc3QqNQ=='
-        }
+       headers:{
+         'content-type':'application/json',
+        'Authorization':'Basic dummy'
+}
         });
         expect(res.status()).toBe(200);
         const token=(await res.body()).toString();
@@ -74,10 +73,10 @@ test('DDO-Individual Product Records', async ({ page,request }) => {
 
   const res = await request.post('https://security-authenticator-service.asis-dev5.hq.local/authenticate',{
           
-          headers:{
-            'content-type':'application/json',
-            'Authorization':'Basic c3hhMDAzQGFjdGl2ZWRpcmVjdG9yeTpIb25lc3QqNQ=='
-        }
+  headers:{
+    'content-type':'application/json',
+    'Authorization':'Basic dummy'
+}
         });
         expect(res.status()).toBe(200);
         const token=(await res.body()).toString();
@@ -109,10 +108,10 @@ test('DDO-Maximum reporting duration is one year', async ({ page,request }) => {
 
   const res = await request.post('https://security-authenticator-service.asis-dev5.hq.local/authenticate',{
           
-          headers:{
-            'content-type':'application/json',
-            'Authorization':'Basic c3hhMDAzQGFjdGl2ZWRpcmVjdG9yeTpIb25lc3QqNQ=='
-        }
+  headers:{
+    'content-type':'application/json',
+    'Authorization':'Basic dummy'
+}
         });
         expect(res.status()).toBe(200);
         const token=(await res.body()).toString();
